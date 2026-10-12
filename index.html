@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giftly - Login</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+
+        <!-- LEFT SIDE -->
+        <div class="auth-left">
+
+            <div class="auth-brand">
+                🎁 Giftly
+            </div>
+
+            <h1>
+                Give a gift.
+                <br>
+                Create a memory. ❤️
+            </h1>
+
+            <p>
+                Discover beautiful gifts for
+                every special moment.
+            </p>
+
+            <div class="auth-gift">
+                🎁
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="auth-right">
+
+            <div class="auth-box">
+
+                <h2 id="authTitle">
+                    Welcome Back!
+                </h2>
+
+                <p class="auth-subtitle">
+                    Login to continue shopping
+                </p>
+
+
+                <!-- LOGIN FORM -->
+                <form id="loginForm">
+
+                    <label>Email Address</label>
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                    <label>Password</label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <div class="auth-options">
+
+                        <label class="remember">
+                            <input type="checkbox">
+                            Remember me
+                        </label>
+
+                        <a href="#">
+                            Forgot Password?
+                        </a>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="auth-btn"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+
+                <!-- REGISTER FORM -->
+                <form
+                    id="registerForm"
+                    style="display: none;"
+                >
+
+                    <label>Full Name</label>
+
+                    <input
+                        type="text"
+                        id="registerName"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                    <label>Email Address</label>
+
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                    <label>Password</label>
+
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                    <label>Confirm Password</label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm password"
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        class="auth-btn"
+                    >
+                        Create Account
+                    </button>
+
+                </form>
+
+
+                <p
+                    class="auth-switch"
+                    id="authSwitch"
+                >
+                    Don't have an account?
+
+                    <button
+                        id="showRegister"
+                        type="button"
+                    >
+                        Create Account
+                    </button>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* ================= ELEMENTS ================= */
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const registerForm =
+            document.getElementById("registerForm");
+
+        const authTitle =
+            document.getElementById("authTitle");
+
+        const authSwitch =
+            document.getElementById("authSwitch");
+
+
+        /* ================= SHOW REGISTER ================= */
+
+        document
+            .getElementById("showRegister")
+            .addEventListener("click", showRegister);
+
+
+        function showRegister() {
+
+            loginForm.style.display = "none";
+
+            registerForm.style.display = "block";
+
+            authTitle.textContent =
+                "Create Account";
+
+            authSwitch.innerHTML = `
+                Already have an account?
+
+                <button
+                    id="showLogin"
+                    type="button"
+                >
+                    Login
+                </button>
+            `;
+
+            document
+                .getElementById("showLogin")
+                .addEventListener("click", showLogin);
+        }
+
+
+        /* ================= SHOW LOGIN ================= */
+
+        function showLogin() {
+
+            loginForm.style.display = "block";
+
+            registerForm.style.display = "none";
+
+            authTitle.textContent =
+                "Welcome Back!";
+
+            authSwitch.innerHTML = `
+                Don't have an account?
+
+                <button
+                    id="showRegister"
+                    type="button"
+                >
+                    Create Account
+                </button>
+            `;
+
+            document
+                .getElementById("showRegister")
+                .addEventListener("click", showRegister);
+        }
+
+
+        /* ================= REGISTER ================= */
+
+        registerForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const name =
+                    document.getElementById(
+                        "registerName"
+                    ).value.trim();
+
+                const email =
+                    document.getElementById(
+                        "registerEmail"
+                    ).value.trim();
+
+                const password =
+                    document.getElementById(
+                        "registerPassword"
+                    ).value;
+
+                const confirmPassword =
+                    document.getElementById(
+                        "confirmPassword"
+                    ).value;
+
+
+                if (password !== confirmPassword) {
+
+                    alert(
+                        "❌ Passwords do not match!"
+                    );
+
+                    return;
+                }
+
+
+                const user = {
+
+                    name: name,
+
+                    email: email,
+
+                    password: password
+                };
+
+
+                localStorage.setItem(
+                    "giftlyUser",
+                    JSON.stringify(user)
+                );
+
+
+                alert(
+                    "🎉 Account created successfully!"
+                );
+
+
+                showLogin();
+            }
+        );
+
+
+        /* ================= LOGIN ================= */
+
+        loginForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById(
+                        "loginEmail"
+                    ).value.trim();
+
+                const password =
+                    document.getElementById(
+                        "loginPassword"
+                    ).value;
+
+
+                const savedUser =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "giftlyUser"
+                        )
+                    );
+
+
+                if (!savedUser) {
+
+                    alert(
+                        "❌ Account not found. Please register first."
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    email === savedUser.email &&
+                    password === savedUser.password
+                ) {
+
+                    localStorage.setItem(
+                        "giftlyLoggedIn",
+                        "true"
+                    );
+
+
+                    alert(
+                        `🎉 Welcome ${savedUser.name}!`
+                    );
+
+
+                    /* GO TO EXISTING HOME PAGE */
+
+                    window.location.href =
+                        "index.html";
+
+                } else {
+
+                    alert(
+                        "❌ Invalid email or password."
+                    );
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
